@@ -14,7 +14,7 @@ Two-wheeled self-balancing robot realized for the Robotics course at Polito, aca
 - You can tune the PID parameters changing them in the PID block
 
 # Hardware implementation and Arduino code
-Hardware details together with additional information on the project can be found in the Report_Robotics_project.pdf included in this repo.
+Hardware details together with additional information on the project can be found in the Report_RoboticsProject_SelfBalancingRobot.pdf included in this repo.
 
 The Arduino code can be uploaded through the Arduino IDE software and is intended for use on the Arduino Nano, but should also work with other similar boards. To correctly compile the program it is necessary to install the libraries linked at the beginning of the code by downloading them from GitHub and putting them under the Documents/Arduino/libraries folder.
 
