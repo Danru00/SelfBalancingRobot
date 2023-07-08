@@ -1,5 +1,5 @@
 # SelfBalancingRobot
-Two-wheeled self-balancing robot realized for the Robotics course at Polito, academic year 2022-2023. The simulation is based on ROS Noetic
+Two-wheeled self-balancing robot realized for the Robotics course at Polito, academic year 2022-2023. The simulation is based on ROS Noetic and works on Ubuntu 20.04
 
 # Run the Gazebo simulation
 - Download the robot_assembly folder in your catkin workspace and run from a terminal: catkin_make
