@@ -15,4 +15,7 @@ Two-wheeled self-balancing robot realized for the Robotics course at Polito, aca
 
 # Hardware implementation and Arduino code
 Hardware details together with additional information on the project can be found in the Report_Robotics_project.pdf included in this repo.
-The Arduino code can be uploaded through the Arduino IDE software and is intended for use on the Arduino Nano, but should also work with other similar boards. Pin definitions in the code have to be changed depending on the connections with the driver and the motor. The PID parameters and the unstable equilibrium position used for reference can also be changed in the the program depending on the adopted hardware configuration.
+
+The Arduino code can be uploaded through the Arduino IDE software and is intended for use on the Arduino Nano, but should also work with other similar boards. To correctly compile the program it is necessary to install the libraries linked at the beginning of the code by downloading them from GitHub and putting them under the Documents/Arduino/libraries folder.
+
+Pin definitions in the code have to be changed depending on the connections with the driver and the motor. The PID parameters and the unstable equilibrium position used for reference can also be changed in the the program depending on the adopted hardware configuration.
