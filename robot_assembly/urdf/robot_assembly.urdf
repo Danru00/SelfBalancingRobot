@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot
+  name="robot_assembly">
+  
+  <link
+    name="base_link">
+    
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_assembly/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.501960784313725 0.501960784313725 0.501960784313725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_assembly/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name='base_inertial'>
+    <inertial>
+      <origin
+        xyz="0 0 0.0320025"
+        rpy="0 0 0" />
+      <mass
+        value="0.26433" />
+      <inertia
+        ixx="0.00015"
+        ixy="1e-20"
+        iyx="ixy" 
+        ixz="1e-20"
+        izx="ixz"
+        iyy="0.0002"
+        iyz="1e-20"
+        izy="iyz"
+        izz="0.000175" />
+    </inertial>
+  </link>
+
+  <link
+    name="RightWheelLink">
+    <inertial>
+      <origin
+         xyz="0 0 -0.015957"
+        rpy="0 0 0" />
+      <mass
+        value="0.086761" />
+      <inertia
+        ixx="2.5E-05"
+        ixy="0"
+        ixz="0"
+        iyy="2.5E-05"
+        iyz="0"
+        izz="5E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_assembly/meshes/RightWheelLink.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.015957"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="${0.066/2}" length="0.022"/> 
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="RightWheelJoint"
+    type="continuous">
+    <origin
+      xyz="-0.063 -0.0185 0.032"
+      rpy="-1.5708 -1.257 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="RightWheelLink" />
+    <axis
+      xyz="0 0 1" />
+   <limit effort="100" velocity="100" />
+   <dynamics damping="0.7" friction="0.5" />
+  </joint>
+
+  <joint
+    name="FixedInertial"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="base_inertial" />
+  </joint>
+  
+  <link
+    name="LeftWheelLink">
+    <inertial>
+      <origin
+        xyz="0 0 -0.015957"
+        rpy="0 0 0" />
+      <mass
+        value="0.086761" />
+      <inertia
+        ixx="2.5E-05"
+        ixy="0"
+        ixz="0"
+        iyy="2.5E-05"
+        iyz="0"
+        izz="5E-05"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+          <mesh
+          filename="package://robot_assembly/meshes/LeftWheelLink.STL" /> 
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.015957"
+        rpy="0 0 0" />
+      <geometry>
+         <cylinder radius="${0.066/2}" length="0.022"/> 
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="LeftWheelJoint"
+    type="continuous">
+    <origin
+      xyz="0.063 -0.0185 0.032"
+      rpy="-1.5708 -1.257 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="LeftWheelLink" />
+    <axis
+      xyz="0 0 -1" />
+    <limit effort="100" velocity="100" />
+     <dynamics damping="0.7" friction="0.5" />
+  </joint>
+
+
+
+	 <gazebo>
+		<plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+			<alwaysOn>true</alwaysOn>
+			<bodyName>base_link</bodyName>
+			<topicName>imu</topicName>
+			<serviceName>imu_service</serviceName>
+			<gaussianNoise>0.0</gaussianNoise>
+			<rpyOffsets>0 0 0</rpyOffsets>
+			<accelDrift>0.5 0.5 0.5</accelDrift>
+			<accelGaussianNoise>0 0 0</accelGaussianNoise>
+			<rateDrift>0.0 0.0 0.0</rateDrift>
+        	<rateGaussianNoise>0.00 0.00 0.00</rateGaussianNoise>
+        	<headingDrift>0.0</headingDrift>
+        	<headingGaussianNoise>0.00</headingGaussianNoise>
+			<updateRate>100.0</updateRate>
+		</plugin>
+	</gazebo> 
+
+
+
+  <transmission name="right_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RightWheelJoint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_right">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="left_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LeftWheelJoint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_left">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> 
+
+
+
+  <gazebo reference= "LeftWheelLink" >
+		<mu1>0.90</mu1>
+		<mu2>0.65</mu2>
+		<kp>100000</kp>
+		<kd>10</kd>
+		<material>Gazebo/Yellow</material> 
+  </gazebo>
+  
+  <gazebo reference= "RightWheelLink" >
+		<mu1>0.90</mu1>
+		<mu2>0.65</mu2>
+		<kp>100000</kp>
+		<kd>10</kd>
+		<material>Gazebo/Yellow</material> 
+  </gazebo>
+  
+  <gazebo reference= "base_link" >
+		<material>Gazebo/White</material>
+  </gazebo>
+
+
+
+ <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+     <robotNamespace>/robot_assembly</robotNamespace>
+    </plugin>
+ </gazebo> 
+
+
+</robot>

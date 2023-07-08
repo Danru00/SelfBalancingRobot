@@ -1,0 +1,17 @@
+robot_assembly:
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+    
+  lw_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: LeftWheelJoint
+    publish_rate: 50
+    pid: {p: 10, i: 20, d: 0.075}
+
+  rw_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: RightWheelJoint
+    publish_rate: 50
+    pid: {p: 10, i: 20, d: 0.075}

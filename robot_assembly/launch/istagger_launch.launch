@@ -1,0 +1,23 @@
+<launch>
+  <arg name="model" default="$(find robot_assembly)/urdf/robot_assembly.urdf"/>
+  <arg name="rvizconfig" default="$(find robot_assembly)/rviz/config1.rviz" />
+
+  <include file="$(find robot_assembly)/launch/gazebo.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+   
+  <rosparam file="$(find robot_assembly)/config/controller.yaml" command="load"/>
+  
+  <node name="individual_controller" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/robot_assembly" args = "joint_state_controller lw_velocity_controller rw_velocity_controller"/>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+      <remap from="/joint_states" to="/robot_assembly/joint_states"/>
+  </node>
+  
+  
+  <node name="pid_controller" pkg="robot_assembly" type="pid_controller.py" output="screen"/>
+    
+</launch>
